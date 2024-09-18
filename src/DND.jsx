@@ -1,35 +1,35 @@
-import React, { useState, useEffect } from 'react';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import React, { useState, useEffect } from "react";
+import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 
 // Initial tasks setup
 const initialTasks = {
-  todo: JSON.parse(localStorage.getItem('todoTasks')) || [],
+  todo: JSON.parse(localStorage.getItem("todoTasks")) || [],
   Running: [],
   Completed: [],
 };
 
 // TaskInput Component to add tasks to the todo list
 const TaskInput = ({ addTask }) => {
-  const [taskContent, setTaskContent] = useState('');
+  const [taskContent, setTaskContent] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (taskContent.trim()) {
       addTask(taskContent);
-      setTaskContent('');
+      setTaskContent("");
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ marginBottom: '20px' }}>
+    <form onSubmit={handleSubmit} style={{ marginBottom: "20px" }}>
       <input
         type="text"
         value={taskContent}
         onChange={(e) => setTaskContent(e.target.value)}
         placeholder="Add a new task"
-        style={{ padding: '8px', width: '200px', marginRight: '10px' }}
+        style={{ padding: "8px", width: "200px", marginRight: "10px" }}
       />
-      <button type="submit" style={{ padding: '8px 16px' }}>
+      <button type="submit" style={{ padding: "8px 16px" }}>
         Add Task
       </button>
     </form>
@@ -42,7 +42,7 @@ export const DND = () => {
 
   useEffect(() => {
     // Save tasks to local storage whenever they change
-    localStorage.setItem('todoTasks', JSON.stringify(tasks.todo));
+    localStorage.setItem("todoTasks", JSON.stringify(tasks.todo));
   }, [tasks.todo]);
 
   const onDragEnd = (result) => {
@@ -90,10 +90,10 @@ export const DND = () => {
   };
 
   return (
-    <div style={{ padding: '20px' }}>
+    <div style={{ padding: "20px" }}>
       <TaskInput addTask={addTask} />
       <DragDropContext onDragEnd={onDragEnd}>
-        <div style={{ display: 'flex', gap: '20px' }}>
+        <div style={{ display: "flex", gap: "20px" }}>
           {Object.entries(tasks).map(([key, items]) => (
             <Droppable droppableId={key} key={key}>
               {(provided, snapshot) => (
@@ -101,36 +101,44 @@ export const DND = () => {
                   ref={provided.innerRef}
                   {...provided.droppableProps}
                   style={{
-                    backgroundColor: snapshot.isDraggingOver ? '#e0e0e0' : '#f4f5f7',
+                    backgroundColor: snapshot.isDraggingOver
+                      ? "#e0e0e0"
+                      : "#f4f5f7",
                     padding: 10,
                     width: 250,
                     minHeight: 400,
                     borderRadius: 5,
-                    transition: 'background-color 0.2s ease',
-                    border: '1px solid #ccc',
+                    transition: "background-color 0.2s ease",
+                    border: "1px solid #ccc",
                   }}
                 >
-                  <h3 style={{ textAlign: 'center', margin: '0 0 10px' }}>
+                  <h3 style={{ textAlign: "center", margin: "0 0 10px" }}>
                     {key.replace(/^\w/, (c) => c.toUpperCase())}
                   </h3>
                   {items.map((item, index) => (
-                    <Draggable key={item.id} draggableId={item.id} index={index}>
+                    <Draggable
+                      key={item.id}
+                      draggableId={item.id}
+                      index={index}
+                    >
                       {(provided, snapshot) => (
                         <div
                           ref={provided.innerRef}
                           {...provided.draggableProps}
                           {...provided.dragHandleProps}
                           style={{
-                            userSelect: 'none',
+                            userSelect: "none",
                             padding: 16,
-                            margin: '0 0 8px 0',
-                            minHeight: '50px',
-                            backgroundColor: snapshot.isDragging ? '#263b4a' : '#456c86',
-                            color: 'white',
+                            margin: "0 0 8px 0",
+                            minHeight: "50px",
+                            backgroundColor: snapshot.isDragging
+                              ? "#263b4a"
+                              : "#456c86",
+                            color: "white",
                             borderRadius: 3,
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
                             ...provided.draggableProps.style,
                           }}
                         >
